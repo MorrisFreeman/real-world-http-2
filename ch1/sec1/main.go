@@ -16,7 +16,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(string(dump))
 	fmt.Fprintf(w, "<html><body>hello</body></html>")
-
 }
 
 func cookieHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +26,12 @@ func cookieHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Fprintf(w, "<html><body>１回目</body></html>")
 	}
+	dump, err := httputil.DumpRequest(r, true)
+	if err != nil {
+		http.Error(w, fmt.Sprint(err), http.StatusInternalServerError)
+		return
+	}
+	fmt.Println(string(dump))
 }
 
 func chacheHandler(w http.ResponseWriter, r *http.Request) {
